@@ -40,6 +40,29 @@ app.get('/users', (request: Request, response: Response) => {
   })
 })
 
+app.get('/user/:id', (request: Request, response: Response) => {
+
+  const { id } = request.params 
+  const user = users.find(user => user.id === Number(id))
+
+  if (!user) {
+    return response.status(404).json({
+      message: 'Usuário não encontrado',
+      timestamp: new Date().toISOString(),
+      status: 'API funcionando!'
+    })
+  }
+
+
+  response.json({
+    message: 'Detalhes do usuário:',
+    timestamp: new Date().toISOString(),
+    user: user.getDadosPublicos(),
+    status: 'API funcionando!'
+  })
+})
+
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`)
   console.log(`Health: http://localhost:${port}/health`)
