@@ -40,7 +40,7 @@ app.get('/users', (request: Request, response: Response) => {
   })
 })
 
-app.get('/user/:id', (request: Request, response: Response) => {
+app.get('/users/:id', (request: Request, response: Response) => {
 
   const { id } = request.params 
   const user = users.find(user => user.id === Number(id))
