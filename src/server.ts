@@ -1,7 +1,7 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { type Request, type Response } from 'express'
-import { User } from './models/user'
+import usersRoutes from './routes/users'
 
 
 dotenv.config()
@@ -12,56 +12,16 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-const users: User[] = []
-const user = new User('winnicius', 'winni@gmail.com', '123')
-const user1 = new User('João Silva', 'joao@email.com', '123456')
-const user2 = new User('Maria Santos', 'maria@email.com', 'senha123')
-
-users.push(user,user1, user2)
-
-app.get('/', (request: Request, response: Response) => {
-
+app.get('/', (_request: Request, response: Response) => {
   response.json({
-    message: 'Bem-vindo à API de Usuários!',
-    timestamp: new Date().toISOString(),
-    status: 'API funcionando!'
+    message: 'API funcionando!',
+    timestamp: new Date().toISOString()
   })
 })
 
-app.get('/users', (request: Request, response: Response) => {
-  
-  const dadosPublicos = users.map(user => new User(user.nome, user.email).getDadosPublicos())
-
-  response.json({
-    message: `Lista de usuários (${dadosPublicos.length}):`,
-    timestamp: new Date().toISOString(),
-    users: dadosPublicos,
-    status: 'API funcionando!'
-  })
-})
-
-app.get('/users/:id', (request: Request, response: Response) => {
-
-  const { id } = request.params 
-  const user = users.find(user => user.id === Number(id))
-
-  if (!user) {
-    return response.status(404).json({
-      message: 'Usuário não encontrado',
-      timestamp: new Date().toISOString(),
-      status: 'API funcionando!'
-    })
-  }
-
-
-  response.json({
-    message: 'Detalhes do usuário:',
-    timestamp: new Date().toISOString(),
-    user: user.getDadosPublicos(),
-    status: 'API funcionando!'
-  })
-})
-
+app.use('/v1', [
+  usersRoutes,
+])
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`)
