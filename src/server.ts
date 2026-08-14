@@ -1,25 +1,23 @@
-import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { type Request, type Response } from 'express'
 import usersRoutes from './routes/users'
-
 
 dotenv.config()
 const app = express()
 const port = process.env.PORT
 
-app.use(cors())
+// app.use(cors()) << this is a comentário
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/', (_request: Request, response: Response) => {
+app.get('/', (request: Request, response: Response) => {
   response.json({
     message: 'API funcionando!',
     timestamp: new Date().toISOString()
   })
 })
 
-app.use('/v1', [
+app.use('/api/v1', [
   usersRoutes,
 ])
 

@@ -4,7 +4,7 @@ export class User {
   constructor(
     public nome: string,
     public email: string,
-    private senha?: string,
+    public senha?: string,
   ) {
     this.id = User.contadorId++
   }
