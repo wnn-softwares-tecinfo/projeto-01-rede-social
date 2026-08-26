@@ -1,12 +1,11 @@
 import dotenv from 'dotenv'
 import express, { type Request, type Response } from 'express'
-import usersRoutes from './routes/users'
+import userRoutes from './routes/user.routes'
 
 dotenv.config()
 const app = express()
 const port = process.env.PORT
 
-// app.use(cors()) << this is a comentário
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
@@ -17,9 +16,7 @@ app.get('/', (request: Request, response: Response) => {
   })
 })
 
-app.use('/api/v1', [
-  usersRoutes,
-])
+app.use('/api/v1', [userRoutes])
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`)
